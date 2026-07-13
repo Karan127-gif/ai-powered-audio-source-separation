@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Audio Separator Pro — Setup Guide</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+    :root {
+      --bg:        #09090E;
+      --surface:   #0F0F18;
+      --card:      #141421;
+      --card2:     #1a1a2e;
+      --border:    rgba(124,92,240,0.18);
+      --accent:    #7C5CF0;
+      --accent2:   #A78BFA;
+      --green:     #22C55E;
+      --red:       #EF4444;
+      --amber:     #F59E0B;
+      --text:      #E8E8F0;
+      --muted:     #5A5A78;
+      --radius:    14px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #0F0F18 0%, #1a0d35 50%, #0F0F18 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 56px 40px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(124,92,240,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(124,92,240,0.12);
+      border: 1px solid rgba(124,92,240,0.35);
+      border-radius: 100px;
+      padding: 6px 18px;
+      font-size: 12px; font-weight: 600; letter-spacing: .08em;
+      color: var(--accent2);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 30%, var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 14px;
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 520px;
+      margin: 0 auto 28px;
+    }
+    .version-row {
+      display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+    }
+    .version-chip {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px; padding: 6px 14px;
+      font-size: 13px; color: var(--muted);
+    }
+    .version-chip span { color: var(--text); font-weight: 600; }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ── Alert boxes ── */
+    .alert {
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      margin-bottom: 28px;
+      display: flex; gap: 14px; align-items: flex-start;
+      border: 1px solid;
+    }
+    .alert-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+    .alert-body strong { display: block; font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .alert-body p { font-size: 14px; line-height: 1.6; }
+    .alert.green  { background: rgba(34,197,94,.08);  border-color: rgba(34,197,94,.3);  }
+    .alert.green .alert-icon { color: var(--green); }
+    .alert.green .alert-body strong { color: var(--green); }
+    .alert.amber  { background: rgba(245,158,11,.08);  border-color: rgba(245,158,11,.3); }
+    .alert.amber .alert-icon { color: var(--amber); }
+    .alert.amber .alert-body strong { color: var(--amber); }
+    .alert.purple { background: rgba(124,92,240,.08); border-color: rgba(124,92,240,.3); }
+    .alert.purple .alert-icon { color: var(--accent2); }
+    .alert.purple .alert-body strong { color: var(--accent2); }
+
+    /* ── Section headings ── */
+    .section-head {
+      display: flex; align-items: center; gap: 12px;
+      margin: 48px 0 22px;
+    }
+    .section-num {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--accent), #A78BFA);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 15px; color: #fff;
+      flex-shrink: 0;
+    }
+    .section-head h2 {
+      font-size: 20px; font-weight: 700; color: var(--text);
+    }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 26px;
+      margin-bottom: 18px;
+    }
+    .card h3 {
+      font-size: 15px; font-weight: 700;
+      color: var(--accent2);
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card p, .card li { font-size: 14px; color: #c0c0d4; line-height: 1.7; }
+    .card ul, .card ol { padding-left: 20px; }
+    .card li { margin-bottom: 6px; }
+
+    /* ── Steps ── */
+    .steps { list-style: none; padding: 0; counter-reset: step; }
+    .steps li {
+      counter-increment: step;
+      display: flex; gap: 18px; align-items: flex-start;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .steps li:last-child { border-bottom: none; }
+    .steps li::before {
+      content: counter(step);
+      min-width: 32px; height: 32px;
+      background: rgba(124,92,240,0.15);
+      border: 1px solid rgba(124,92,240,0.4);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: var(--accent2);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .steps li .step-body strong {
+      display: block; font-size: 15px; font-weight: 700;
+      color: var(--text); margin-bottom: 5px;
+    }
+    .steps li .step-body p { font-size: 14px; color: #9898b8; }
+    .steps li .step-body .tag {
+      display: inline-block;
+      background: rgba(124,92,240,0.12);
+      border: 1px solid rgba(124,92,240,0.25);
+      border-radius: 6px; padding: 2px 10px;
+      font-size: 12px; color: var(--accent2); font-weight: 600;
+      margin-top: 6px;
+    }
+
+    /* ── Code blocks ── */
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(124,92,240,0.12);
+      border: 1px solid rgba(124,92,240,0.2);
+      border-radius: 6px; padding: 2px 8px;
+      font-size: 13px; color: var(--accent2);
+    }
+    .code-block {
+      background: #0a0a12;
+      border: 1px solid rgba(124,92,240,0.2);
+      border-radius: 10px;
+      padding: 16px 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px; color: #c0c0d4;
+      line-height: 1.8;
+      margin: 12px 0;
+      overflow-x: auto;
+    }
+    .code-block .comment { color: var(--muted); }
+    .code-block .keyword { color: var(--accent2); }
+
+    /* ── File table ── */
+    .file-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+    .file-table th {
+      background: rgba(124,92,240,0.1);
+      color: var(--accent2);
+      font-weight: 700; font-size: 12px;
+      text-transform: uppercase; letter-spacing: .06em;
+      padding: 10px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .file-table td {
+      padding: 11px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: #c0c0d4;
+      vertical-align: top;
+    }
+    .file-table tr:last-child td { border-bottom: none; }
+    .file-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .file-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px; color: var(--accent2);
+      white-space: nowrap;
+    }
+    .badge {
+      display: inline-block;
+      border-radius: 5px; padding: 1px 8px;
+      font-size: 11px; font-weight: 700;
+    }
+    .badge.run    { background: rgba(34,197,94,.15);  color: #22C55E; }
+    .badge.model  { background: rgba(124,92,240,.15); color: var(--accent2); }
+    .badge.src    { background: rgba(99,102,241,.15); color: #818CF8; }
+    .badge.data   { background: rgba(245,158,11,.15); color: var(--amber); }
+    .badge.doc    { background: rgba(255,255,255,.08); color: var(--muted); }
+
+    /* ── Login box ── */
+    .login-box {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    .login-field label {
+      display: block; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .08em;
+      color: var(--muted); margin-bottom: 6px;
+    }
+    .login-field .value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px; font-weight: 600; color: var(--accent2);
+      background: rgba(124,92,240,0.08);
+      border: 1px solid rgba(124,92,240,0.25);
+      border-radius: 8px; padding: 10px 16px;
+    }
+
+    /* ── Pipeline visual ── */
+    .pipeline {
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .pipe-step {
+      display: flex; gap: 0; align-items: stretch;
+    }
+    .pipe-left {
+      display: flex; flex-direction: column; align-items: center;
+      width: 50px; flex-shrink: 0;
+    }
+    .pipe-dot {
+      width: 16px; height: 16px;
+      background: var(--accent);
+      border-radius: 50%;
+      border: 2px solid var(--accent2);
+      flex-shrink: 0;
+      margin-top: 20px;
+    }
+    .pipe-line {
+      width: 2px; flex: 1;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      margin: 0 auto;
+    }
+    .pipe-step:last-child .pipe-line { display: none; }
+    .pipe-card {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 20px;
+      margin-bottom: 10px;
+    }
+    .pipe-card strong { color: var(--accent2); font-size: 14px; }
+    .pipe-card p { font-size: 13px; color: var(--muted); margin-top: 3px; }
+
+    /* ── Troubleshoot accordion ── */
+    details {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    summary {
+      padding: 16px 20px;
+      cursor: pointer;
+      font-weight: 600; font-size: 14px;
+      display: flex; align-items: center; gap: 10px;
+      list-style: none;
+      user-select: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::before {
+      content: '›';
+      font-size: 18px; color: var(--accent2);
+      transition: transform .2s;
+    }
+    details[open] summary::before { transform: rotate(90deg); }
+    .details-body {
+      padding: 0 20px 18px;
+      font-size: 14px; color: #9898b8; line-height: 1.7;
+    }
+    .details-body ol { padding-left: 18px; }
+    .details-body li { margin-bottom: 6px; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      padding: 28px 40px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    footer strong { color: var(--accent2); }
+
+    /* ── Divider ── */
+    hr { border: none; border-top: 1px solid rgba(255,255,255,0.05); margin: 38px 0; }
+
+    @media (max-width: 600px) {
+      .hero { padding: 40px 20px 36px; }
+      .container { padding: 28px 16px 60px; }
+      .login-box { grid-template-columns: 1fr; }
+      .version-row { gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<div class="hero">
+  <div class="hero-badge">🎵 College Project Guide</div>
+  <h1>AI Audio Separator Pro</h1>
+  <p>Complete setup guide — read this first. You'll be running the app in under 5 minutes.</p>
+  <div class="version-row">
+    <div class="version-chip">Version <span>2.1.0</span></div>
+    <div class="version-chip">Python <span>3.10 +</span></div>
+    <div class="version-chip">CPU-only <span>✓ No GPU needed</span></div>
+    <div class="version-chip">OS <span>Windows 10/11</span></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ═══════════════ QUICK START ALERT ═══════════════ -->
+  <div style="margin-top: 8px;">
+    <div class="alert green">
+      <div class="alert-icon">⚡</div>
+      <div class="alert-body">
+        <strong>Quickest Way — Just Double-Click the EXE</strong>
+        <p>Double-click <strong>Launch AI Audio Separator Pro.exe</strong> — a single setup window opens and automatically handles everything (download, install, launch) in one place. Internet required on first run (~5 min). Every launch after that is instant.</p>
+      </div>
+    </div>
+
+    <div class="alert amber">
+      <div class="alert-icon">📶</div>
+      <div class="alert-body">
+        <strong>Internet Required — First Time Only</strong>
+        <p>On the very first launch, the app downloads Python packages (~400–600 MB). After that, <strong>no internet is needed</strong>. Packages are stored permanently on your PC.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SECTION 1 — WHAT'S IN THE FOLDER ═══════════════ -->
+  <div class="section-head">
+    <div class="section-num">1</div>
+    <h2>What's Inside This Folder</h2>
+  </div>
+
+  <div class="card">
+    <p style="margin-bottom:16px; color:var(--muted);">Every file has a role. Here's what each one does:</p>
+    <table class="file-table">
+      <thead>
+        <tr>
+          <th>File / Folder</th>
+          <th>What it does</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Launch AI Audio Separator Pro.exe</td>
+          <td>⭐ <strong>Main launcher EXE.</strong> Double-click this to start. Opens ONE setup popup that downloads, installs and verifies all packages — then launches the app automatically.</td>
+          <td><span class="badge run">LAUNCHER</span></td>
+        </tr>
+        <tr>
+          <td>launcher.py</td>
+          <td>The Python source code that powers the EXE. Included for transparency — you do not need to run this directly.</td>
+          <td><span class="badge src">SOURCE</span></td>
+        </tr>
+        <tr>
+          <td>Run App.bat</td>
+          <td>Backup launcher for users who prefer running via Python manually.</td>
+          <td><span class="badge run">LAUNCHER</span></td>
+        </tr>
+        <tr>
+          <td>multistem_unet_best.pth</td>
+          <td>The <strong>trained AI brain</strong> — a deep learning model (UNet) that has learned to separate audio into vocals, drums, bass, and other.</td>
+          <td><span class="badge model">AI MODEL</span></td>
+        </tr>
+        <tr>
+          <td>main.py</td>
+          <td>Entry point of the application. Starts the GUI and manages window transitions.</td>
+          <td><span class="badge src">SOURCE</span></td>
+        </tr>
+        <tr>
+          <td>landing_page.py</td>
+          <td>The welcome screen shown when the app opens.</td>
+          <td><span class="badge src">SOURCE</span></td>
+        </tr>
+        <tr>
+          <td>auth_window.py</td>
+          <td>Login and register screens.</td>
+          <td><span class="badge src">SOURCE</span></td>
+        </tr>
+        <tr>
+          <td>user_dashboard.py</td>
+          <td>Main dashboard for normal users — upload audio, choose stems, trigger separation.</td>
+          <td><span class="badge src">SOURCE</span></td>
+        </tr>
+        <tr>
+          <td>admin_dashboard.py</td>
+          <td>Admin panel — manage users, view stats, add credits.</td>
+          <td><span class="badge src">SOURCE</span></td>
+        </tr>
+        <tr>
+          <td>audio_processor.py</td>
+          <td>Core AI pipeline — loads the model, runs chunked inference, Wiener filtering, HPSS, Griffin-Lim.</td>
+          <td><span class="badge src">SOURCE</span></td>
+        </tr>
+        <tr>
+          <td>payment_window.py</td>
+          <td>Credit purchase window with UPI/card UI.</td>
+          <td><span class="badge src">SOURCE</span></td>
+        </tr>
+        <tr>
+          <td>model.py</td>
+          <td>Defines the UNet neural network architecture in PyTorch.</td>
+          <td><span class="badge src">SOURCE</span></td>
+        </tr>
+        <tr>
+          <td>database.py</td>
+          <td>SQLite database layer — user accounts, credits, transactions.</td>
+          <td><span class="badge src">SOURCE</span></td>
+        </tr>
+        <tr>
+          <td>audio_separator.db</td>
+          <td>The SQLite database file — stores all user data. Pre-loaded with a working admin account.</td>
+          <td><span class="badge data">DATABASE</span></td>
+        </tr>
+        <tr>
+          <td>test_song.wav</td>
+          <td>Sample audio file included for demo. Use this to test separation immediately.</td>
+          <td><span class="badge data">DEMO</span></td>
+        </tr>
+        <tr>
+          <td>requirements_cpu.txt</td>
+          <td>List of Python packages needed (CPU-only version of PyTorch).</td>
+          <td><span class="badge doc">CONFIG</span></td>
+        </tr>
+        <tr>
+          <td>config.py</td>
+          <td>Central configuration — paths, colours, audio settings, credit prices.</td>
+          <td><span class="badge src">SOURCE</span></td>
+        </tr>
+        <tr>
+          <td>SETUP_README.txt</td>
+          <td>Plain-text quick-reference guide.</td>
+          <td><span class="badge doc">DOCS</span></td>
+        </tr>
+        <tr>
+          <td>train.py / dataset.py</td>
+          <td>Scripts used to train the AI model (not needed to run the app — included for reference).</td>
+          <td><span class="badge doc">TRAINING</span></td>
+        </tr>
+        <tr>
+          <td>loss_curve.png</td>
+          <td>Graph of model training loss over 300 epochs — shows the AI learning progress.</td>
+          <td><span class="badge doc">DOCS</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════ SECTION 2 — HOW TO RUN ═══════════════ -->
+  <div class="section-head">
+    <div class="section-num">2</div>
+    <h2>Step-by-Step: How to Run the App</h2>
+  </div>
+
+  <div class="alert purple">
+    <div class="alert-icon">💡</div>
+    <div class="alert-body">
+      <strong>Two Options Available</strong>
+      <p>Option A is easier (just double-click). Option B is for users who already have Python installed.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px;">
+    <h3>⭐ Option A — EXE Launcher (Recommended, Easiest)</h3>
+    <ol class="steps">
+      <li>
+        <div class="step-body">
+          <strong>Unzip the folder</strong>
+          <p>Right-click <code>AI_Audio_Separator_Pro_College.zip</code> → <strong>Extract All</strong> → choose a location (e.g. Desktop). Keep all files together in the same folder — do not move them.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Double-click "Launch AI Audio Separator Pro.exe"</strong>
+          <p>A <strong>single setup popup window</strong> appears. It contains a live 4-step checklist — all steps run automatically inside this one window with no extra dialogs:</p>
+          <div style="background:#0a0a12; border:1px solid rgba(124,92,240,0.2); border-radius:8px; padding:14px 18px; margin-top:10px; font-size:13px; line-height:2;">
+            <span style="color:#A78BFA;">▶</span> <strong style="color:#e8e8f0;">Step 1</strong> <span style="color:#6B6B9A;">— Upgrading pip</span><br/>
+            <span style="color:#A78BFA;">▶</span> <strong style="color:#e8e8f0;">Step 2</strong> <span style="color:#6B6B9A;">— Installing PyTorch CPU&nbsp;&nbsp;(~200 MB)</span><br/>
+            <span style="color:#A78BFA;">▶</span> <strong style="color:#e8e8f0;">Step 3</strong> <span style="color:#6B6B9A;">— Installing librosa, PyQt6 &amp; other packages</span><br/>
+            <span style="color:#A78BFA;">▶</span> <strong style="color:#e8e8f0;">Step 4</strong> <span style="color:#6B6B9A;">— Verifying all imports</span>
+          </div>
+          <span class="tag" style="margin-top:10px;">⏳ First-time setup takes ~5 minutes &nbsp;|&nbsp; Internet required</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Each step turns ✔ green when complete</strong>
+          <p>A live install log scrolls at the bottom of the window so you can see exactly what is happening. If anything fails, the error is shown <strong>inside the same window</strong> — no extra popups.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>App launches automatically when all 4 steps are done</strong>
+          <p>The setup window closes by itself and the main app opens. Login using the admin account or register a new user (see Section 3).</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Next time — just double-click the EXE again</strong>
+          <p>The launcher detects all packages are installed and skips the setup window entirely. App opens in under 3 seconds.</p>
+          <span class="tag">✓ Instant launch — no download, no window</span>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h3>🐍 Option B — Run via Python (For developers)</h3>
+    <ol class="steps">
+      <li>
+        <div class="step-body">
+          <strong>Install Python 3.10 or newer</strong>
+          <p>Download from <code>https://www.python.org/downloads/</code><br/>
+          ⚠️ Important: Check <strong>"Add Python to PATH"</strong> during install.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Double-click "Run App.bat"</strong>
+          <p>This will install packages automatically and then launch the app. Uses <code>pip</code> to download PyTorch and other libraries.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Or run manually in terminal</strong>
+          <div class="code-block">
+            <span class="comment"># Install packages once</span><br/>
+            pip install -r requirements_cpu.txt<br/><br/>
+            <span class="comment"># Run the app</span><br/>
+            python main.py
+          </div>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <!-- ═══════════════ SECTION 3 — LOGIN ═══════════════ -->
+  <div class="section-head">
+    <div class="section-num">3</div>
+    <h2>Login Credentials</h2>
+  </div>
+
+  <div class="card">
+    <h3>🔐 Pre-configured Admin Account</h3>
+    <p style="margin-bottom: 16px; color: var(--muted);">Use these credentials to log in immediately — no registration needed:</p>
+    <div class="login-box">
+      <div class="login-field">
+        <label>Username</label>
+        <div class="value">admin</div>
+      </div>
+      <div class="login-field">
+        <label>Password</label>
+        <div class="value">admin123</div>
+      </div>
+    </div>
+    <p style="margin-top: 14px; font-size: 13px; color: var(--muted);">
+      Or click <strong>Register</strong> on the login screen to create a new user account. New users start with <strong>5 free credits</strong>.
+    </p>
+  </div>
+
+  <!-- ═══════════════ SECTION 4 — HOW THE APP WORKS ═══════════════ -->
+  <div class="section-head">
+    <div class="section-num">4</div>
+    <h2>How the App Works — AI Pipeline</h2>
+  </div>
+
+  <div class="card" style="margin-bottom: 20px;">
+    <h3>🧠 What Does Audio Separation Mean?</h3>
+    <p>The app takes a <strong>mixed music file</strong> (like a full song with vocals, drums, bass and instruments all together) and uses a trained AI model to split it into separate tracks — one for each instrument. This is like unmixing a bowl of soup back into its ingredients.</p>
+  </div>
+
+  <div class="pipeline">
+    <div class="pipe-step">
+      <div class="pipe-left"><div class="pipe-dot"></div><div class="pipe-line"></div></div>
+      <div class="pipe-card">
+        <strong>Step 1 — Load Audio</strong>
+        <p>The uploaded MP3/WAV file is loaded and resampled to 22,050 Hz (mono-compatible stereo). Handles both mono and stereo files.</p>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-left"><div class="pipe-dot"></div><div class="pipe-line"></div></div>
+      <div class="pipe-card">
+        <strong>Step 2 — STFT (Spectrogram)</strong>
+        <p>Audio is converted from a waveform (time domain) to a <strong>spectrogram</strong> (frequency vs time) using Short-Time Fourier Transform. This is what the AI model reads — like turning sound into a picture.</p>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-left"><div class="pipe-dot"></div><div class="pipe-line"></div></div>
+      <div class="pipe-card">
+        <strong>Step 3 — HPSS (Harmonic-Percussive Separation)</strong>
+        <p>Before the AI runs, we separate harmonic content (vocals, melody) from percussive content (drums, hits). This helps the AI produce cleaner stem masks.</p>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-left"><div class="pipe-dot"></div><div class="pipe-line"></div></div>
+      <div class="pipe-card">
+        <strong>Step 4 — UNet Model Inference (Chunked)</strong>
+        <p>The AI model (<strong>MultiStem UNet</strong>) processes the spectrogram in overlapping 4-second chunks. It was trained on 300 epochs of music data to predict 4 masks — one for each stem: Vocals, Drums, Bass, Other.</p>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-left"><div class="pipe-dot"></div><div class="pipe-line"></div></div>
+      <div class="pipe-card">
+        <strong>Step 5 — 2-Pass Wiener Filter</strong>
+        <p>A classical signal processing technique that sharpens the AI's masks. Run twice — each pass uses the previous output as a refined prior, producing much cleaner separation.</p>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-left"><div class="pipe-dot"></div><div class="pipe-line"></div></div>
+      <div class="pipe-card">
+        <strong>Step 6 — Griffin-Lim Phase Reconstruction</strong>
+        <p>After masking, the vocals stem is reconstructed using Griffin-Lim (iterative phase estimation). Without this, audio sounds "watery" or "metallic".</p>
+      </div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-left"><div class="pipe-dot"></div><div class="pipe-line"></div></div>
+      <div class="pipe-card">
+        <strong>Step 7 — Post-Processing & Save</strong>
+        <p>Each stem gets per-stem spectral cleanup (bandpass filters, noise gates), loudness normalisation, and hard-limiting to prevent clipping. Final WAV files are saved to the <code>separated_output/</code> folder.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SECTION 5 — PACKAGES EXPLAINED ═══════════════ -->
+  <div class="section-head">
+    <div class="section-num">5</div>
+    <h2>Packages That Get Downloaded</h2>
+  </div>
+
+  <div class="card">
+    <p style="margin-bottom: 16px; color: var(--muted);">On first launch, these libraries are downloaded and installed automatically:</p>
+    <table class="file-table">
+      <thead>
+        <tr><th>Package</th><th>What it does in this app</th><th>Size</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>torch (CPU)</td>
+          <td>PyTorch — runs the UNet deep learning model. CPU version works without any GPU.</td>
+          <td>~200 MB</td>
+        </tr>
+        <tr>
+          <td>torchaudio</td>
+          <td>PyTorch audio utilities — loads audio tensors from files.</td>
+          <td>~5 MB</td>
+        </tr>
+        <tr>
+          <td>librosa</td>
+          <td>Audio analysis library — STFT, HPSS, spectrograms, istft, Griffin-Lim.</td>
+          <td>~15 MB</td>
+        </tr>
+        <tr>
+          <td>soundfile</td>
+          <td>Reads and writes WAV/FLAC audio files.</td>
+          <td>~1 MB</td>
+        </tr>
+        <tr>
+          <td>numpy</td>
+          <td>Fast numerical arrays — used everywhere for spectrogram math.</td>
+          <td>~20 MB</td>
+        </tr>
+        <tr>
+          <td>PyQt6</td>
+          <td>The GUI framework — all windows, buttons, sliders, and layouts.</td>
+          <td>~50 MB</td>
+        </tr>
+        <tr>
+          <td>matplotlib</td>
+          <td>Plots the real-time spectrogram visualization inside the app.</td>
+          <td>~30 MB</td>
+        </tr>
+        <tr>
+          <td>Pillow</td>
+          <td>Image handling — loads PNG/JPG images for the UI.</td>
+          <td>~5 MB</td>
+        </tr>
+        <tr>
+          <td>bcrypt</td>
+          <td>Secure password hashing for the user authentication system.</td>
+          <td>&lt;1 MB</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="margin-top: 14px; font-size: 13px; color: var(--muted);">Total download size: approximately <strong>300–400 MB</strong>. Downloaded once — stored permanently on your PC.</p>
+  </div>
+
+  <!-- ═══════════════ SECTION 6 — TROUBLESHOOTING ═══════════════ -->
+  <div class="section-head">
+    <div class="section-num">6</div>
+    <h2>Troubleshooting</h2>
+  </div>
+
+  <details>
+    <summary>⚠️ "Windows protected your PC" warning appears when opening the EXE</summary>
+    <div class="details-body">
+      <p>This is a Windows SmartScreen warning for unsigned EXEs. The file is safe — it was built from the included <code>launcher.py</code> source code. To bypass:</p>
+      <ol>
+        <li>Click <strong>"More info"</strong> in the warning dialog.</li>
+        <li>Click <strong>"Run anyway"</strong>.</li>
+        <li>The single setup window will open and start working automatically.</li>
+      </ol>
+    </div>
+  </details>
+
+  <details>
+    <summary>⚠️ Setup window shows a red "Failed to install PyTorch" error</summary>
+    <div class="details-body">
+      <p>The error is shown <strong>inside the setup window</strong> in red — no extra popup. This is usually an internet connection issue. Try:</p>
+      <ol>
+        <li>Make sure you are connected to the internet (not just a local network).</li>
+        <li>Disable your VPN if you have one.</li>
+        <li>Close the setup window and double-click <code>Launch AI Audio Separator Pro.exe</code> again — it will retry all steps from the beginning.</li>
+        <li>Alternatively, use <strong>Run App.bat</strong> — it shows more detailed error messages in a terminal window.</li>
+      </ol>
+    </div>
+  </details>
+
+  <details>
+    <summary>⚠️ App launches but model fails to load</summary>
+    <div class="details-body">
+      <p>The file <code>multistem_unet_best.pth</code> must be in the <strong>same folder</strong> as <code>main.py</code>. Make sure you didn't move individual files out of the extracted folder. Always keep all files together.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>⚠️ Separation takes very long</summary>
+    <div class="details-body">
+      <p>The app runs on CPU only (no GPU). Processing time depends on your PC's speed and the length of the audio file. A 3-minute song typically takes <strong>2–5 minutes</strong> on a modern CPU. The included <code>test_song.wav</code> is about 42 seconds and processes much faster.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>⚠️ "Python is not installed" error in Run App.bat</summary>
+    <div class="details-body">
+      <ol>
+        <li>Download Python from <code>https://www.python.org/downloads/</code></li>
+        <li>During installation, <strong>check the box: "Add Python to PATH"</strong> — this is critical.</li>
+        <li>After installation, close and reopen the .bat file.</li>
+      </ol>
+    </div>
+  </details>
+
+  <details>
+    <summary>⚠️ No sound / output WAV files are silent</summary>
+    <div class="details-body">
+      <p>Make sure the input audio file is not already a stem (e.g. don't separate an already-separated vocals track). Use a full mixed song. The <code>test_song.wav</code> included is a good starting point to verify everything is working.</p>
+    </div>
+  </details>
+
+  <hr/>
+
+  <!-- ═══════════════ TECH SUMMARY ═══════════════ -->
+  <div class="card">
+    <h3>📋 Technical Summary</h3>
+    <table class="file-table">
+      <tbody>
+        <tr><td>Model Architecture</td><td>MultiStem UNet (encoder-decoder with skip connections)</td></tr>
+        <tr><td>Training Epochs</td><td>300 (best checkpoint at epoch 300)</td></tr>
+        <tr><td>Input Format</td><td>WAV / MP3 / FLAC / OGG (any sample rate — auto-resampled)</td></tr>
+        <tr><td>Sample Rate</td><td>22,050 Hz</td></tr>
+        <tr><td>FFT Window</td><td>n_fft = 1024, hop_length = 256</td></tr>
+        <tr><td>Output Stems</td><td>Vocals, Drums, Bass, Other</td></tr>
+        <tr><td>Output Format</td><td>WAV (32-bit stereo)</td></tr>
+        <tr><td>Processing Device</td><td>CPU (no GPU required)</td></tr>
+        <tr><td>GUI Framework</td><td>PyQt6</td></tr>
+        <tr><td>Database</td><td>SQLite (audio_separator.db)</td></tr>
+        <tr><td>Post-Processing</td><td>2-pass Wiener filter, HPSS guidance, Griffin-Lim, per-stem spectral cleanup</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- end container -->
+
+<footer>
+  <p>
+    <strong>AI Audio Separator Pro v2.1.0</strong> &nbsp;·&nbsp;
+    Built with PyTorch + PyQt6 &nbsp;·&nbsp;
+    For academic / educational use
+  </p>
+  <p style="margin-top: 8px;">
+    Admin Login: <strong>admin</strong> / <strong>admin123</strong> &nbsp; | &nbsp;
+    Demo file: <strong>test_song.wav</strong>
+  </p>
+</footer>
+
+</body>
+</html>
